@@ -2,23 +2,49 @@
 
 set -ouex pipefail
 
+### Enable repositories
+
+dnf5 -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf5 -y install https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf5 -y copr enable faugus/faugus-launcher
+
 ### Install packages
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
+dnf5 -y install steam gamescope gamemode mangohud
+dnf5 -y install faugus-launcher waydroid
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+### Cleaning up
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+dnf5 -y remove rpmfusion-free-release
+dnf5 -y remove rpmfusion-nonfree-release
+dnf5 -y copr disable faugus/faugus-launcher
 
-#### Example for enabling a System Unit File
+### Install vscode
 
-systemctl enable podman.socket
+#tee /etc/yum.repos.d/vscode.repo <<'EOF'
+#[code]
+#name=Visual Studio Code
+#baseurl=https://packages.microsoft.com/yumrepos/vscode
+#enabled=1
+#gpgcheck=1
+#gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+#EOF
+#sed -i "s/enabled=.*/enabled=0/g" /etc/yum.repos.d/vscode.repo
+#dnf5 -y install --enablerepo=code code
+
+### Setup aliases
+
+play() {
+    MANGOHUD=1 gamemoderun gamescope -W 1920 -H 1080 -f -- "$@"
+}
+play-fsr() {
+    MANGOHUD=1 gamemoderun gamescope -W 1920 -H 1080 -f -F fsr -- "$@"
+}
+play-int() {
+    MANGOHUD=1 gamemoderun gamescope -W 1920 -H 1080 -f -F nearest -S integer -- "$@"
+}
+
+### Better ujust
+
+UJUST_PATH="/usr/share/ublue-os/justfile"
+sed -i 's/@{{ just }} --list/@{{ just }} --choose/g' "$UJUST_PATH"
