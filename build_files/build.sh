@@ -39,11 +39,19 @@ setcap 'cap_sys_admin+p' $(readlink -f /usr/bin/sunshine)
 
 ### Setup aliases
 
-echo '#!/usr/bin/env bash
-gamemoderun gamescope -f -- mangohud "$@"' >> /usr/local/bin/play
+sudo mkdir -p /usr/local/bin
 
-echo '#!/usr/bin/env bash
-gamemoderun gamescope -f -F fsr -- mangohud "$@"' >> /usr/local/bin/play-fsr
+sudo tee /usr/local/bin/play > /dev/null <<'EOF'
+#!/usr/bin/env bash
+gamemoderun gamescope -f -- mangohud "$@"
+EOF
 
-echo '#!/usr/bin/env bash
-gamemoderun gamescope -f -F nearest -S integer -- mangohud "$@"' >> /usr/local/bin/play-int
+sudo tee /usr/local/bin/play-fsr > /dev/null <<'EOF'
+#!/usr/bin/env bash
+gamemoderun gamescope -f -F fsr -- mangohud "$@"
+EOF
+
+sudo tee /usr/local/bin/play-int > /dev/null <<'EOF'
+#!/usr/bin/env bash
+gamemoderun gamescope -f -F nearest -S integer -- mangohud "$@"
+EOF
