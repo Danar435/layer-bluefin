@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gamemoderun gamescope -f -- mangohud "$@"
+gamemoderun gamescope -f --mangoapp -- "$@"

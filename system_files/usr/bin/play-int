@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gamemoderun gamescope -f -F nearest -S integer -- mangohud "$@"
+gamemoderun gamescope -f --mangoapp -F nearest -S integer -- "$@"
