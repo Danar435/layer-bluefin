@@ -1,8 +1,9 @@
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
-COPY /build_files /build_files
-COPY /system_files /system_files
 
+COPY build_files /build_files
+COPY custom_files /custom_files
+COPY system_files /system_files
 
 # Base Image
 FROM ghcr.io/ublue-os/bluefin-dx:stable-daily

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gamemoderun gamescope -f --mangoapp -F fsr -- "$@"
+gamemoderun gamescope -f -W 1920 -H 1080 --mangoapp -F fsr -- "$@"

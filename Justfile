@@ -1,6 +1,7 @@
 export image_name := env("IMAGE_NAME", "extra-bluefin")
 export default_tag := env("DEFAULT_TAG", "latest")
 export bib_image := env("BIB_IMAGE", "quay.io/centos-bootc/bootc-image-builder:latest")
+export sudo_askpass := env("SUDO_ASKPASS", "/usr/libexec/openssh/gnome-ssh-askpass")
 
 alias build-vm := build-qcow2
 alias rebuild-vm := rebuild-qcow2
